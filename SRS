@@ -1,0 +1,140 @@
+# 📄 **ReflexAI — Functional Requirements Document**
+
+---
+
+## **1. System Overview**
+
+**ReflexAI** is a text-based human–AI interaction system designed to promote reflective thinking by generating self-questions about a user’s written content.
+Users can upload text files, view AI-generated reflective questions, mark them as to-dos, and provide written replies. The system maintains a memory of user responses to avoid redundant questioning in future sessions.
+
+---
+
+## **2. System Goals**
+
+1. Enable users to engage in deeper reflection through AI-generated self-questions.
+2. Support text-based interactions for accessibility and simplicity.
+3. Provide a structured interface for managing AI questions as actionable to-dos.
+4. Maintain personalized learning and history through stored user replies.
+5. Ensure adaptive questioning — the AI should **not repeat** previously answered or resolved questions.
+
+---
+
+## **3. Functional Requirements**
+
+### **3.1. Session Management**
+
+| ID   | Function                | Description                                                                                                                                       |
+| ---- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-1 | **Start Session**       | The user can start a new session or continue an existing one.                                                                                     |
+| FR-2 | **Upload File**         | The user can upload one or more text files (e.g., `.txt`, `.docx`, `.pdf`). Each uploaded file is stored and associated with the current session. |
+| FR-3 | **Session Context**     | Each session retains the user’s uploaded files, AI-generated questions, replies, and progress.                                                    |
+| FR-4 | **Session Persistence** | User data (files, questions, replies, status) is saved locally or to the user’s account for retrieval in later sessions.                          |
+
+---
+
+### **3.2. User–AI Interaction**
+
+| ID   | Function                        | Description                                                                                                        |
+| ---- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| FR-5 | **Text-Based Interaction Only** | The user interacts exclusively via text. No voice, image, or other modalities.                                     |
+| FR-6 | **AI Question Generation**      | Upon analyzing user text, the AI generates self-questions based on ambiguity, missing details, or inconsistencies. |
+| FR-7 | **Transparency Tag**            | Each question includes a brief note describing why it was generated (e.g., “Detected vague term ‘impact’”).        |
+| FR-8 | **Real-Time Updates**           | New questions can appear dynamically as the user edits or uploads new text.                                        |
+| FR-9 | **User Replies**                | The user can add text replies directly beneath each question. Replies are stored persistently.                     |
+
+---
+
+### **3.3. Question Management (Reflection To-Do List)**
+
+| ID    | Function                  | Description                                                                              |
+| ----- | ------------------------- | ---------------------------------------------------------------------------------------- |
+| FR-10 | **Question as Checkbox**  | Each AI-generated question is represented as a **checkbox item** in a to-do list format. |
+| FR-11 | **Mark as Done**          | Users can check a question to indicate it has been addressed or resolved.                |
+| FR-12 | **Add Reply**             | Each question can accept one or more text replies from the user.                         |
+| FR-13 | **Edit or Delete Reply**  | The user can edit or remove previous replies.                                            |
+| FR-14 | **Save Reply**            | Replies are saved automatically with timestamps.                                         |
+| FR-15 | **Question History View** | The system displays a history of past questions and replies for user learning.           |
+
+---
+
+### **3.4. Adaptive Learning & Memory**
+
+| ID    | Function                      | Description                                                                                                                                                     |
+| ----- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-16 | **Question Memory**           | The AI maintains a record of previously asked questions and their replies.                                                                                      |
+| FR-17 | **Avoid Redundant Questions** | When analyzing new or updated content, the AI checks its memory. If a similar question (semantic match) has been asked and answered, it will **not** repeat it. |
+| FR-18 | **Reinforcement Update**      | The AI uses stored replies to adapt future questioning patterns (e.g., less frequent on clarified topics).                                                      |
+| FR-19 | **User Override**             | Users can reset or clear AI memory for specific sessions or globally.                                                                                           |
+
+---
+
+### **3.5. Data Management**
+
+| ID    | Function             | Description                                                                                                            |
+| ----- | -------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| FR-20 | **Data Storage**     | Store all session data (files, questions, replies, completion status) securely and locally or in user profile storage. |
+| FR-21 | **Export Data**      | Allow user to export their reflection log (questions + replies) as a text or CSV file for future learning.             |
+| FR-22 | **Delete Session**   | User can delete sessions and all associated data permanently.                                                          |
+| FR-23 | **Privacy Controls** | ReflexAI should never share or transmit user data externally without explicit consent.                                 |
+
+---
+
+## **4. Non-Functional Requirements**
+
+| Category               | Requirement                                                                                                     |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------- |
+| **Usability**          | The interface must be simple and distraction-free, optimized for text entry and question management.            |
+| **Performance**        | AI analysis and question generation should respond within 5 seconds for average-length documents (<2000 words). |
+| **Security**           | Data stored locally or encrypted if in the cloud; all interactions remain private.                              |
+| **Scalability**        | Must handle multiple sessions per user efficiently.                                                             |
+| **Accessibility**      | Compatible with keyboard navigation, screen readers, and high-contrast mode.                                    |
+| **Ethical Compliance** | No manipulative or biased question phrasing; AI transparency logs available.                                    |
+
+---
+
+## **5. System Workflow Summary**
+
+1. **User opens ReflexAI → starts session.**
+2. **User uploads file(s).**
+3. **System reads and analyzes content → generates self-questions.**
+4. **Questions appear as checkbox list (to-do style) in right panel.**
+5. **User can reply to each question (text only).**
+6. **Replies and completion status are saved.**
+7. **Next time, ReflexAI remembers answered questions → avoids repetition.**
+8. **User can export or review reflection history anytime.**
+
+---
+
+## **6. Example User Flow**
+
+1. User uploads `project_draft.docx`.
+2. ReflexAI analyzes text and generates 5 questions:
+
+   * “What metric defines trust here?”
+   * “Who decides what fairness means in this context?”
+3. User marks Q1 as done, writes reply:
+
+   > “We define trust via post-survey user confidence scores.”
+4. ReflexAI stores this reply.
+5. In future uploads, if a similar sentence appears, AI **skips** re-asking that question.
+6. User exports reflection summary for documentation.
+
+---
+
+## **7. Future Extensions**
+
+* Multi-user collaboration (shared sessions with reflection merge).
+* Semantic clustering of questions (themes like ethics, usability, clarity).
+* Integration with document editors (Google Docs / VS Code plugin).
+* Emotion-awareness layer: question tone adapts to user stress level.
+
+---
+
+## ✅ **Summary**
+
+ReflexAI’s main functional goal is to enable **reflective, question-driven collaboration** between human and AI using **text-only interaction**.
+It prioritizes *clarity, memory, and personal growth*, ensuring users not only improve a document but also *learn how they think.*
+
+---
+
+Would you like me to now create the **UI functional layout** (showing where the upload zone, document area, AI question to-do list, and reply boxes go) — suitable for your prototype or Figma blueprint?
