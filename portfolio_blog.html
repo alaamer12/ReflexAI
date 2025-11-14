@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog & Articles - AI-Enhanced Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof tailwind !== 'undefined') {
+                tailwind.config = {
+                    theme: {
+                        extend: {
+                            colors: {
+                                primary: '#8B5CF6',
+                                secondary: '#06B6D4'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</head>
+<body class="bg-gray-50 font-sans" x-data="blogApp()">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-8">
+                    <div class="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                        AI Portfolio
+                    </div>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="portfolio_main.html" class="text-gray-600 hover:text-purple-600 transition-colors">Portfolio</a>
+                        <a href="portfolio_blog.html" class="text-purple-600 font-medium">Blog</a>
+                        <a href="portfolio_dashboard.html" class="text-gray-600 hover:text-purple-600 transition-colors">Dashboard</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-600 hover:text-purple-600 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-500 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                Technical Blog & Articles
+            </h1>
+            <p class="text-xl text-purple-100 max-w-3xl mx-auto">
+                Insights on AI, software development, and emerging technologies. 
+                Sharing knowledge and experiences from the world of tech.
+            </p>
+        </div>
+    </div>
+
+    <!-- Filter and Search -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-6">
+            <!-- Category Filters -->
+            <div class="flex flex-wrap gap-2">
+                <button 
+                    @click="selectedCategory = 'all'"
+                    :class="selectedCategory === 'all' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'"
+                    class="px-4 py-2 rounded-full border border-gray-200 transition-colors text-sm font-medium">
+                    All Articles
+                </button>
+                <button 
+                    @click="selectedCategory = 'ai'"
+                    :class="selectedCategory === 'ai' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'"
+                    class="px-4 py-2 rounded-full border border-gray-200 transition-colors text-sm font-medium">
+                    AI & ML
+                </button>
+                <button 
+                    @click="selectedCategory = 'web'"
+                    :class="selectedCategory === 'web' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'"
+                    class="px-4 py-2 rounded-full border border-gray-200 transition-colors text-sm font-medium">
+                    Web Development
+                </button>
+                <button 
+                    @click="selectedCategory = 'career'"
+                    :class="selectedCategory === 'career' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'"
+                    class="px-4 py-2 rounded-full border border-gray-200 transition-colors text-sm font-medium">
+                    Career
+                </button>
+            </div>
+
+            <!-- Search -->
+            <div class="relative">
+                <input 
+                    type="text" 
+                    x-model="searchQuery"
+                    placeholder="Search articles..."
+                    class="w-64 pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <svg class="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Articles Grid -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <template x-for="article in filteredArticles" :key="article.id">
+                <article class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+                         @click="openArticle(article)">
+                    <!-- Article Image -->
+                    <div class="h-48 bg-gradient-to-br from-purple-400 to-blue-500 relative">
+                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <div class="text-3xl mb-2" x-text="article.icon"></div>
+                                <div class="text-sm font-medium" x-text="article.category"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article Content -->
+                    <div class="p-6">
+                        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-3">
+                            <span x-text="article.date"></span>
+                            <span>•</span>
+                            <span x-text="article.readTime"></span>
+                        </div>
+                        
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3 line-clamp-2" x-text="article.title"></h3>
+                        
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3" x-text="article.excerpt"></p>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex flex-wrap gap-1">
+                                <template x-for="tag in article.tags.slice(0, 2)" :key="tag">
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full" x-text="tag"></span>
+                                </template>
+                            </div>
+                            <div class="text-purple-600 text-sm font-medium">Read more →</div>
+                        </div>
+                    </div>
+                </article>
+            </template>
+        </div>
+
+        <!-- No Results -->
+        <div x-show="filteredArticles.length === 0" class="text-center py-16">
+            <div class="text-gray-400 text-6xl mb-4">📝</div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">No articles found</h3>
+            <p class="text-gray-600">Try adjusting your search or filter criteria.</p>
+        </div>
+    </div>
+
+    <!-- Article Modal -->
+    <div x-show="selectedArticle" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+         @click="closeArticle()">
+        
+        <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+             @click.stop>
+            <template x-if="selectedArticle">
+                <div>
+                    <!-- Article Header -->
+                    <div class="relative h-64 bg-gradient-to-br from-purple-400 to-blue-500">
+                        <button @click="closeArticle()" 
+                                class="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                        <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <div class="text-5xl mb-4" x-text="selectedArticle.icon"></div>
+                                <div class="text-sm font-medium px-3 py-1 bg-white bg-opacity-20 rounded-full" x-text="selectedArticle.category"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Article Content -->
+                    <div class="p-8">
+                        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-4">
+                            <span x-text="selectedArticle.date"></span>
+                            <span>•</span>
+                            <span x-text="selectedArticle.readTime"></span>
+                        </div>
+                        
+                        <h1 class="text-3xl font-bold text-gray-900 mb-6" x-text="selectedArticle.title"></h1>
+                        
+                        <div class="prose max-w-none">
+                            <div x-html="selectedArticle.content"></div>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-2 mt-8 pt-6 border-t border-gray-200">
+                            <template x-for="tag in selectedArticle.tags" :key="tag">
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full" x-text="tag"></span>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <script>
+        function blogApp() {
+            return {
+                selectedCategory: 'all',
+                searchQuery: '',
+                selectedArticle: null,
+                
+                articles: [
+                    {
+                        id: 1,
+                        title: "Building AI-Powered Web Applications with Modern JavaScript",
+                        excerpt: "Explore how to integrate AI capabilities into web applications using modern JavaScript frameworks and APIs. Learn about best practices and real-world implementation strategies.",
+                        category: "AI & ML",
+                        icon: "🤖",
+                        date: "Nov 10, 2024",
+                        readTime: "8 min read",
+                        tags: ["JavaScript", "AI", "Web Development", "APIs"],
+                        content: `
+                            <p>Artificial Intelligence is revolutionizing web development, and JavaScript developers are at the forefront of this transformation. In this comprehensive guide, we'll explore how to build AI-powered web applications using modern JavaScript frameworks and APIs.</p>
+                            
+                            <h2>Getting Started with AI APIs</h2>
+                            <p>The first step in building AI-powered applications is understanding the available APIs and services. Popular options include OpenAI's GPT models, Google's AI Platform, and various machine learning services.</p>
+                            
+                            <h2>Implementation Strategies</h2>
+                            <p>When integrating AI into web applications, consider these key strategies:</p>
+                            <ul>
+                                <li>Client-side vs server-side processing</li>
+                                <li>API rate limiting and cost management</li>
+                                <li>User experience and loading states</li>
+                                <li>Error handling and fallback mechanisms</li>
+                            </ul>
+                            
+                            <h2>Best Practices</h2>
+                            <p>To ensure your AI-powered applications are robust and user-friendly, follow these best practices for performance, security, and maintainability.</p>
+                        `
+                    },
+                    {
+                        id: 2,
+                        title: "The Future of Frontend Development: Trends to Watch in 2024",
+                        excerpt: "Discover the emerging trends shaping frontend development, from new frameworks to innovative design patterns that are changing how we build user interfaces.",
+                        category: "Web Development",
+                        icon: "🚀",
+                        date: "Nov 8, 2024",
+                        readTime: "6 min read",
+                        tags: ["Frontend", "Trends", "React", "Vue", "Frameworks"],
+                        content: `
+                            <p>Frontend development continues to evolve rapidly, with new tools, frameworks, and methodologies emerging regularly. Let's explore the key trends that are shaping the future of frontend development in 2024.</p>
+                            
+                            <h2>Component-First Architecture</h2>
+                            <p>The shift towards component-based development has fundamentally changed how we approach frontend architecture. Modern frameworks like React, Vue, and Svelte have made component reusability a core principle.</p>
+                            
+                            <h2>Performance Optimization</h2>
+                            <p>With Core Web Vitals becoming increasingly important for SEO, performance optimization techniques are more crucial than ever:</p>
+                            <ul>
+                                <li>Code splitting and lazy loading</li>
+                                <li>Image optimization and modern formats</li>
+                                <li>Bundle size optimization</li>
+                                <li>Server-side rendering and static generation</li>
+                            </ul>
+                            
+                            <h2>Developer Experience</h2>
+                            <p>The focus on developer experience has led to better tooling, improved debugging capabilities, and more intuitive development workflows.</p>
+                        `
+                    },
+                    {
+                        id: 3,
+                        title: "From Junior to Senior: Lessons Learned in My Tech Career",
+                        excerpt: "Reflecting on the journey from junior developer to senior engineer, sharing insights about growth, challenges, and the skills that matter most in tech careers.",
+                        category: "Career",
+                        icon: "📈",
+                        date: "Nov 5, 2024",
+                        readTime: "10 min read",
+                        tags: ["Career", "Growth", "Leadership", "Mentorship"],
+                        content: `
+                            <p>The journey from junior to senior developer is filled with challenges, learning opportunities, and moments of growth. Here are the key lessons I've learned along the way.</p>
+                            
+                            <h2>Technical Skills vs. Soft Skills</h2>
+                            <p>While technical proficiency is essential, soft skills often determine career advancement. Communication, collaboration, and problem-solving abilities become increasingly important as you progress.</p>
+                            
+                            <h2>The Importance of Mentorship</h2>
+                            <p>Both having mentors and becoming one yourself accelerates professional growth:</p>
+                            <ul>
+                                <li>Seek guidance from experienced developers</li>
+                                <li>Share knowledge with junior team members</li>
+                                <li>Build a network of professional relationships</li>
+                                <li>Contribute to open source projects</li>
+                            </ul>
+                            
+                            <h2>Continuous Learning</h2>
+                            <p>The tech industry evolves rapidly, making continuous learning not just beneficial but necessary for career longevity and growth.</p>
+                        `
+                    },
+                    {
+                        id: 4,
+                        title: "Machine Learning in the Browser: WebAssembly and TensorFlow.js",
+                        excerpt: "Learn how to run machine learning models directly in the browser using WebAssembly and TensorFlow.js, enabling powerful AI features without server dependencies.",
+                        category: "AI & ML",
+                        icon: "🧠",
+                        date: "Nov 2, 2024",
+                        readTime: "12 min read",
+                        tags: ["Machine Learning", "WebAssembly", "TensorFlow.js", "Browser"],
+                        content: `
+                            <p>Running machine learning models directly in the browser opens up new possibilities for creating responsive, privacy-focused AI applications. Let's explore how WebAssembly and TensorFlow.js make this possible.</p>
+                            
+                            <h2>Why Client-Side ML?</h2>
+                            <p>Client-side machine learning offers several advantages including reduced latency, improved privacy, and decreased server costs. Users can interact with AI features even when offline.</p>
+                            
+                            <h2>TensorFlow.js Overview</h2>
+                            <p>TensorFlow.js enables machine learning in JavaScript environments:</p>
+                            <ul>
+                                <li>Pre-trained model integration</li>
+                                <li>Custom model training</li>
+                                <li>GPU acceleration support</li>
+                                <li>Cross-platform compatibility</li>
+                            </ul>
+                            
+                            <h2>WebAssembly for Performance</h2>
+                            <p>WebAssembly provides near-native performance for computationally intensive ML operations, making complex models viable in browser environments.</p>
+                        `
+                    },
+                    {
+                        id: 5,
+                        title: "Building Responsive Design Systems with Tailwind CSS",
+                        excerpt: "A comprehensive guide to creating scalable and maintainable design systems using Tailwind CSS, covering best practices and real-world examples.",
+                        category: "Web Development",
+                        icon: "🎨",
+                        date: "Oct 28, 2024",
+                        readTime: "7 min read",
+                        tags: ["CSS", "Design Systems", "Tailwind", "UI/UX"],
+                        content: `
+                            <p>Design systems are crucial for maintaining consistency and scalability in modern web applications. Tailwind CSS provides an excellent foundation for building robust design systems.</p>
+                            
+                            <h2>Design System Fundamentals</h2>
+                            <p>A well-structured design system includes color palettes, typography scales, spacing systems, and component libraries that work together harmoniously.</p>
+                            
+                            <h2>Tailwind Configuration</h2>
+                            <p>Customizing Tailwind's configuration allows you to create a design system that reflects your brand:</p>
+                            <ul>
+                                <li>Custom color palettes</li>
+                                <li>Typography and font systems</li>
+                                <li>Spacing and sizing scales</li>
+                                <li>Breakpoint customization</li>
+                            </ul>
+                            
+                            <h2>Component Architecture</h2>
+                            <p>Building reusable components with Tailwind requires careful consideration of utility composition and variant management.</p>
+                        `
+                    },
+                    {
+                        id: 6,
+                        title: "Navigating Tech Interviews: A Complete Preparation Guide",
+                        excerpt: "Everything you need to know about preparing for technical interviews, from coding challenges to system design questions and behavioral interviews.",
+                        category: "Career",
+                        icon: "💼",
+                        date: "Oct 25, 2024",
+                        readTime: "15 min read",
+                        tags: ["Interviews", "Career", "Coding", "Preparation"],
+                        content: `
+                            <p>Technical interviews can be challenging, but with proper preparation and strategy, you can approach them with confidence. This guide covers all aspects of tech interview preparation.</p>
+                            
+                            <h2>Types of Technical Interviews</h2>
+                            <p>Understanding different interview formats helps you prepare more effectively for each type of assessment you might encounter.</p>
+                            
+                            <h2>Coding Interview Preparation</h2>
+                            <p>Success in coding interviews requires practice with:</p>
+                            <ul>
+                                <li>Data structures and algorithms</li>
+                                <li>Problem-solving strategies</li>
+                                <li>Code optimization techniques</li>
+                                <li>Communication during coding</li>
+                            </ul>
+                            
+                            <h2>System Design Interviews</h2>
+                            <p>For senior positions, system design interviews test your ability to architect scalable solutions and think about trade-offs in large-scale systems.</p>
+                        `
+                    }
+                ],
+                
+                get filteredArticles() {
+                    let filtered = this.articles;
+                    
+                    // Filter by category
+                    if (this.selectedCategory !== 'all') {
+                        filtered = filtered.filter(article => 
+                            article.category.toLowerCase().includes(this.selectedCategory)
+                        );
+                    }
+                    
+                    // Filter by search query
+                    if (this.searchQuery.trim()) {
+                        const query = this.searchQuery.toLowerCase();
+                        filtered = filtered.filter(article =>
+                            article.title.toLowerCase().includes(query) ||
+                            article.excerpt.toLowerCase().includes(query) ||
+                            article.tags.some(tag => tag.toLowerCase().includes(query))
+                        );
+                    }
+                    
+                    return filtered;
+                },
+                
+                openArticle(article) {
+                    this.selectedArticle = article;
+                    document.body.style.overflow = 'hidden';
+                },
+                
+                closeArticle() {
+                    this.selectedArticle = null;
+                    document.body.style.overflow = 'auto';
+                },
+                
+                init() {
+                    console.log('Blog app initialized with', this.articles.length, 'articles');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

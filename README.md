@@ -1,197 +1,244 @@
-# 🧠 **ReflexAI — The Self-Questioning Collaborator**
+# AI-Enhanced Personal Portfolio
+
+A modern, interactive portfolio website featuring an AI-powered chatbot trained on your professional data. Built to impress recruiters, hiring managers, and potential collaborators with a dynamic, personalized experience.
+
+## Overview
+
+This project goes beyond static portfolio websites by combining a clean, responsive design with an intelligent chatbot assistant. Visitors can explore your work while an AI chatbot answers questions about your background, skills, and projects in real-time.
+
+**Target Audience:** Recruiters, hiring managers, and industry peers
+
+## Core Features
+
+### Portfolio Sections
+
+- **Home** — Professional bio, role/title, quick links, and downloadable CV
+- **Projects** — Card-based display with descriptions, tech stacks, images/videos, and links to Live Demo & GitHub
+- **Skills** — Clearly separated Technical and Soft Skills
+- **Career Path** — Education, work experience, certifications, and key achievements
+- **Personal Info** — Contact details, professional summary, and resume download
+
+### AI Chatbot
+
+- **Trained on your data** — Learns from your CV, project descriptions, and professional history
+- **Natural language understanding** — Processes complex, contextual questions naturally
+- **Scope-limited** — Only answers questions about you and your portfolio (no general-purpose AI)
+- **Embedded panel** — Accessible from any section of the portfolio
+
+### Additional Features (Optional)
+
+- Blog section for technical insights and lessons learned
+- Client/colleague testimonials
+- Downloadable project summaries
+
+## Tech Stack
+
+### Frontend
+- Responsive web framework (React, Vue, or vanilla HTML/CSS/JS)
+- Modern UI design with clean typography and color contrast
+- Mobile-first approach
+
+### Backend
+- Server to handle API requests and chatbot logic
+- Lightweight database or file-based storage for portfolio content
+- Session management for user interactions
+
+### AI/NLP
+- OpenAI API (GPT-3.5/GPT-4), Firebase AI, or custom NLP solution
+- Training data: owner's CV, project descriptions, and professional materials
+- RAG (Retrieval-Augmented Generation) pattern for accuracy
+
+## Project Structure
+
+```
+portfolio/
+├── frontend/
+│   ├── components/
+│   │   ├── Home.jsx
+│   │   ├── Projects.jsx
+│   │   ├── Skills.jsx
+│   │   ├── CareerPath.jsx
+│   │   ├── Chatbot.jsx
+│   │   └── Navigation.jsx
+│   ├── styles/
+│   └── index.jsx
+├── backend/
+│   ├── api/
+│   │   ├── portfolio.js
+│   │   └── chatbot.js
+│   ├── data/
+│   │   ├── cv.json
+│   │   └── projects.json
+│   └── server.js
+├── README.md
+└── .env.example
+```
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v16+)
+- API key for AI service (OpenAI, Firebase, or custom NLP)
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone <repo-url>
+cd portfolio
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Create `.env` file
+```bash
+cp .env.example .env
+```
+
+4. Add your API key and portfolio data
+```
+OPENAI_API_KEY=your_key_here
+PORTFOLIO_OWNER_NAME=Your Name
+```
+
+5. Start development server
+```bash
+npm start
+```
+
+6. Open `http://localhost:3000` in your browser
+
+## Configuration
+
+### Portfolio Data
+
+Edit `backend/data/portfolio.json` with your information:
+
+```json
+{
+  "personal": {
+    "name": "Your Name",
+    "title": "Your Title",
+    "bio": "Brief professional summary...",
+    "contact": { "email": "...", "linkedin": "...", "github": "..." }
+  },
+  "projects": [
+    {
+      "name": "Project Name",
+      "description": "What it does...",
+      "techStack": ["React", "Node.js"],
+      "liveDemo": "https://...",
+      "github": "https://...",
+      "image": "path/to/image.jpg"
+    }
+  ],
+  "skills": {
+    "technical": ["Skill 1", "Skill 2"],
+    "soft": ["Skill 1", "Skill 2"]
+  }
+}
+```
+
+### Chatbot Training
+
+The chatbot ingests your portfolio data during initialization. Ensure all relevant information is included in your CV and project descriptions for best results.
+
+## Scope
+
+### ✅ Included
+
+- Responsive portfolio layout across all devices
+- AI chatbot trained exclusively on your data
+- Project browsing with media and external links
+- Downloadable CV and project materials
+- Clear navigation and section organization
+- Professional, modern design
+
+### ❌ Out of Scope
+
+- General-purpose AI features (chatbot answers only about you)
+- Multi-user or enterprise functionality
+- Complex CMS or admin dashboard
+- Advanced analytics or tracking
+- Social media integrations
+
+## Deployment
+
+### Quick Deploy (Recommended)
+
+1. **Frontend:** Deploy to Vercel, Netlify, or GitHub Pages
+2. **Backend:** Deploy to Heroku, Railway, or AWS Lambda
+3. **Environment Variables:** Set API keys securely in your hosting platform
+
+Example with Vercel + Firebase:
+```bash
+npm run build
+vercel deploy
+```
+
+## Best Practices
+
+- Keep portfolio data fresh and accurate
+- Test chatbot responses regularly to ensure accuracy
+- Use high-quality images and videos for projects
+- Maintain clear, concise copy on each section
+- Ensure all external links work before deployment
+- Monitor API usage and costs
+
+## Error Handling
+
+- **Out-of-scope queries:** Chatbot responds with "I can only answer questions about my background and projects"
+- **Unavailable media:** UI displays "Not available" instead of broken links
+- **Ambiguous questions:** Chatbot asks for clarification or suggests related projects/roles
+
+## Testing
+
+Before deployment, verify:
+
+- [ ] All project links (Live Demo, GitHub) are functional
+- [ ] Images and videos load correctly on mobile
+- [ ] Chatbot answers about you accurately
+- [ ] Navigation works across all sections
+- [ ] CV downloads properly
+- [ ] Responsive design on mobile, tablet, desktop
+
+## Future Enhancements (Post-Launch)
+
+- Blog section for technical articles
+- Client testimonials carousel
+- Performance analytics (without tracking personal data)
+- Dark mode toggle
+- Multi-language support
+- Integration with external job platforms
+
+## Support & Troubleshooting
+
+**Chatbot not responding?**
+- Check API key validity
+- Verify portfolio data is properly formatted JSON
+- Review server logs for errors
+
+**Styling issues?**
+- Clear browser cache
+- Check for CSS framework conflicts
+- Test in different browsers
+
+**Deployment problems?**
+- Review environment variables are set correctly
+- Check backend API is accessible
+- Monitor build logs for errors
+
+## License
+
+This project is personal and proprietary. Feel free to customize and deploy for your own use.
+
+## Questions?
+
+Reach out through the contact links in your portfolio or open an issue in the repository.
 
 ---
 
-## **1. Problem Definition & Context (10%)**
-
-### **Scenario**
-
-In most human–AI systems, the AI passively responds to human prompts. However, true understanding often arises not from the *answers we get*, but from the *questions we didn’t think to ask*.
-**ReflexAI** introduces a new paradigm of collaboration: an AI that continuously **asks clarifying questions about vague or underspecified parts of a document or conversation**, helping users identify conceptual blind spots, missing assumptions, and weak reasoning.
-
-### **Target Users & Needs**
-
-* **Target Users:** Students, researchers, designers, and project teams dealing with complex reasoning or writing tasks.
-* **User Need:** Users often produce incomplete arguments or inconsistent logic without realizing it. ReflexAI’s questioning helps surface these hidden issues, enhancing quality, coherence, and self-awareness.
-
-### **Real-World Relevance**
-
-* Applicable in **academic writing**, **policy drafting**, **UX design documentation**, and **strategic planning**, where clarity and accountability are critical.
-* Reflects real demands in human–AI collaboration: *explainability, transparency, and shared reasoning.*
-
----
-
-## **2. Prototype Design Quality (20%)**
-
-### **Interface Overview**
-
-ReflexAI uses a **dual-pane interface**:
-
-* **Left Pane:** User’s working text or document (editable).
-* **Right Pane (“Reflection Stream”):** AI’s self-questions displayed as thought bubbles or chat threads.
-
-Each AI question appears with:
-
-* A reason tag (“Detected vagueness,” “Missing assumption,” “Ambiguous term”).
-* Options: **Answer**, **Ignore**, or **Save for later**.
-
-### **Example Interaction**
-
-User text:
-
-> “Our system improves user trust by applying fairness metrics.”
-
-ReflexAI asks:
-
-> 🤔 *“What metric defines ‘trust’ here — qualitative or quantitative?”*
-> 🤔 *“There’s mention of ‘fairness,’ but who determines fairness — user or system designer?”*
-
-User can click “Answer” to write directly in the document, or “Ignore” to remove it.
-
-### **Shneiderman’s 8 Golden Rules Applied**
-
-| Rule                      | Application in ReflexAI                                                          |
-| ------------------------- | -------------------------------------------------------------------------------- |
-| Consistency               | Uniform question tone, icons, and layouts.                                       |
-| Shortcuts                 | Keyboard shortcuts to toggle depth level (surface / analytical / philosophical). |
-| Feedback                  | Visual cue when document clarity improves (fewer “?” tags).                      |
-| Closure                   | Summaries: “You’ve resolved 8 of 10 clarity issues.”                             |
-| Error prevention          | Avoids over-questioning with throttling.                                         |
-| Undo                      | Any hidden question can be restored.                                             |
-| Internal locus of control | User always decides which questions matter.                                      |
-| Reduce memory load        | Questions contextualized directly beside text.                                   |
-
-### **Clarity, Accessibility, Inclusivity**
-
-* Clean typography, minimal distractions.
-* Plain-language questions, with cultural neutrality.
-* Adjustable tone: *Academic*, *Coaching*, or *Gentle.*
-
----
-
-## **3. Human–AI Interaction Features (25%)**
-
-### **Interaction Modes**
-
-1. **Document Mode:** AI analyzes a written draft.
-2. **Voice Reflection Mode:** Users brainstorm verbally; AI transcribes and asks reflective questions.
-3. **Dialogue Mode:** Two-way questioning — the AI can *also* ask the user to challenge *its own assumptions* (“Do you think this question is relevant?”).
-
-### **Transparency & Explainability**
-
-Each question includes a tooltip:
-
-> “I asked this because the term ‘impact’ was used without context or measurable variable.”
-
-### **Handling Ambiguity & Error**
-
-* If AI over-questions, the user can lower “Depth Level.”
-* User feedback fine-tunes future question patterns.
-* ReflexAI learns from ignored or edited questions.
-
-### **User Control**
-
-* All AI behavior is adjustable: question frequency, tone, sensitivity.
-* User can export the “Reflection Summary” for documentation.
-
----
-
-## **4. Ethics & Trust (10%)**
-
-### **Privacy**
-
-* Text stays local by default; analysis runs offline or in a sandbox.
-* No long-term storage unless user opts in.
-
-### **Bias & Fairness**
-
-* Question templates use neutral phrasing (no moral framing).
-* Diversity-aware dataset for linguistic fairness.
-
-### **Accountability**
-
-* Transparent reasoning behind every question.
-* User has full control over what ReflexAI remembers or deletes.
-
-### **Safeguards**
-
-* “Quiet Mode” if the system senses user frustration.
-* Periodic “Pause and Reflect” reminders to prevent cognitive overload.
-
----
-
-## **5. Emotional Interaction (10%)**
-
-* ReflexAI detects emotional cues in text or tone:
-
-  * “I’m lost here” → AI softens responses: “Would you like to summarize your main idea instead?”
-* Adaptive emotional modes:
-
-  * **Curious Mode:** Engages deeply with logic.
-  * **Supportive Mode:** Encouraging tone (“Great improvement! Want to explore deeper?”).
-* Culturally aware tone selection — avoids sarcasm, supports empathy-first phrasing.
-
----
-
-## **6. Future Vision (5%)**
-
-### **Short-Term**
-
-Integration into tools like Notion, Google Docs, or code IDEs for reflective debugging.
-
-### **Long-Term**
-
-* ReflexAI becomes a **thinking layer** across productivity tools — a universal “mirror of thought.”
-* AI-driven co-reasoning partners for interdisciplinary teams.
-* **Positive scenario:** Enhances critical thinking and meta-cognition.
-* **Negative scenario:** Overdependence on reflection could slow decision-making — mitigated by adjustable questioning levels.
-
----
-
-## **7. Evaluation & Testing (10%)**
-
-### **Methodology**
-
-* **Participants:** 10 students writing short project reports.
-* **Procedure:** Each writes once with ReflexAI, once without.
-* **Metrics:**
-
-  * Clarity improvement (measured by independent reviewers).
-  * Number of conceptual issues identified.
-  * User satisfaction survey.
-  * Task completion time.
-
-### **Expected Outcomes**
-
-* Higher clarity and depth with ReflexAI.
-* Positive emotional feedback (“felt like thinking aloud with a mentor”).
-* Moderate learning curve manageable with “Beginner Mode.”
-
----
-
-## **8. Deliverables & Presentation (10%)**
-
-* **Prototype:**
-
-  * Figma or React mock-up with sample document and auto-generated questions.
-* **Demo Video:**
-
-  * Show AI reading text, self-questioning, and user responding.
-* **Report:**
-
-  * Structured per rubric (this document).
-* **Slides:**
-
-  * Visual of “before/after” clarity + ethical design highlights.
-
----
-
-## 🌟 **Summary**
-
-ReflexAI transforms AI from a passive assistant into a **self-questioning collaborator**.
-It doesn’t just *answer* — it *thinks aloud*, exposes ambiguity, and co-reflects with the human.
-By merging **Socratic dialogue**, **ethical transparency**, and **emotional adaptability**, it defines a new paradigm of **critical human–AI co-reasoning**.
-
----
-
-Would you like me to now create the **visual prototype layout plan** (i.e., how the dual-pane UI looks, what buttons and interactions it includes) — ready for Figma or a front-end demo mockup?
+**Ready to launch?** Start with the Getting Started section and customize with your own information. Your AI-enhanced portfolio awaits.
